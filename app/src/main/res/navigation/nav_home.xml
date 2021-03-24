@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_home"
+    android:label="@string/home"
+    app:startDestination="@id/homeFragment">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.shivam.puppyadoption.ui.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_homeDetailFragment"
+            app:destination="@id/homeDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeDetailFragment"
+        android:name="com.shivam.puppyadoption.ui.HomeDetailFragment"
+        android:label="@string/post"
+        tools:layout="@layout/fragment_home_detail">
+        <argument
+            android:name="dogName"
+            app:argType="string" />
+        <argument
+            android:name="dogAge"
+            app:argType="string" />
+        <argument
+            android:name="dogGender"
+            app:argType="string" />
+        <argument
+            android:name="dogDesc"
+            app:argType="string" />
+        <argument
+            android:name="dogImg"
+            app:argType="string" />
+        <argument
+            android:name="ownerID"
+            app:argType="string" />
+        <argument
+            android:name="dogBreed"
+            app:argType="string" />
+        <argument
+            android:name="dogWeight"
+            app:argType="string" />
+        <argument
+            android:name="dogColor"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_homeDetailFragment_to_contactOwnerBottomSheetFragment"
+            app:destination="@id/contactOwnerBottomSheetFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/contactOwnerBottomSheetFragment"
+        android:name="com.shivam.puppyadoption.ui.ContactOwnerBottomSheetFragment"
+        android:label="fragment_contact_bottom_sheet"
+        tools:layout="@layout/fragment_contact_bottom_sheet" >
+        <argument
+            android:name="ownerName"
+            app:argType="string" />
+        <argument android:name="ownerBio"
+            app:argType="string" />
+        <argument android:name="ownerImg"
+            app:argType="string" />
+        <argument
+            android:name="ownerID"
+            app:argType="string" />
+    </dialog>
+</navigation>

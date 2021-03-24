@@ -1,0 +1,84 @@
+<resources>
+    <string name="app_name">Puppy Adoption</string>
+    <string name="home">Home</string>
+    <string name="favourite">Favourite</string>
+    <string name="posts">Posts</string>
+    <string name="new_post">New Post</string>
+    <string name="notification">Notification</string>
+    <string name="profile">Profile</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="or">Or</string>
+    <string name="name">Name</string>
+    <string name="setup">Setup</string>
+    <string name="bio">Bio</string>
+    <string name="add_new_dog_desc">Add new dog</string>
+    <string name="dummy_name">Scooby Doo</string>
+    <string name="dummy_age">2 yrs</string>
+    <string name="dummy_location">801m away</string>
+    <string name="dummy_gender">Male</string>
+    <string name="gender">Gender</string>
+    <string name="age">Age</string>
+    <string name="post">Post</string>
+    <string name="radio_male">Male</string>
+    <string name="radio_female">Female</string>
+    <string name="husky">Husky</string>
+    <string name="years_old">Years Old</string>
+    <string name="adopt_me">Adopt me</string>
+
+    <string name="get_weight">%1$s kg</string>
+    <string name="get_age">%1$s years</string>
+
+    <!--    adjectives  about dog -->
+    <string name="active">Active</string>
+    <string name="playful">Playful</string>
+    <string name="cat_friendly">Cat Friendly</string>
+    <string name="cheerful">Cheerful</string>
+    <string name="chubby">Chubby</string>
+    <string name="lazy">Lazy</string>
+    <string name="trained">Trained</string>
+    <string name="easy_to_train">Easy to Train</string>
+    <string name="friendly">Friendly</string>
+    <string name="cuddly">Cuddly</string>
+    <string name="protective">Protective</string>
+    <string name="grumpy">Grumpy</string>
+    <string name="stubborn">Stubborn</string>
+    <string name="rescued">Rescued</string>
+    <string name="muscular">Muscular</string>
+    <string name="giant">Giant</string>
+    <string name="create_a_new_account">Create a New Account</string>
+    <string name="person_with_dog">Person with dog</string>
+    <string name="logout">Logout</string>
+    <string name="save">Save</string>
+    <string name="something_about_your_dog">Something about your dog</string>
+    <string name="breed">Breed</string>
+    <string name="weight">Weight</string>
+    <string name="tags">Tags</string>
+    <string name="color">Color</string>
+    <string name="about">About</string>
+    <string name="filter">Filter</string>
+    <!--    dog breeds string array for spinner-->
+    <string-array name="breeds">
+        <item>Husky</item>
+        <item>Labrador Retriever</item>
+        <item>Golden Retriever</item>
+        <item>German Shepherd</item>
+        <item>BullDog</item>
+        <item>Poodle</item>
+        <item>Great Dane</item>
+        <item>Rottweiler</item>
+        <item>Chihuahua</item>
+        <item>Dobermann</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="contact_owner">Contact Owner</string>
+    <string name="specify_reason">Specify Reason</string>
+    <string name="ask_for_adoption">Ask for adoption</string>
+    <string name="request">Request</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+</resources>

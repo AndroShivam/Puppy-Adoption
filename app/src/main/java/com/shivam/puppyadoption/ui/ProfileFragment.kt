@@ -75,6 +75,7 @@ class ProfileFragment : Fragment() {
             auth.signOut()
             findNavController().popBackStack()
         }
+
         return binding.root
     }
 
@@ -118,7 +119,6 @@ class ProfileFragment : Fragment() {
                 Toast.makeText(context, "Error : ${task.exception?.message}", Toast.LENGTH_SHORT)
                     .show()
             }
-
         }
     }
 

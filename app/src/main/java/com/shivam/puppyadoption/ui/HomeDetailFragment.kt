@@ -47,7 +47,7 @@ class HomeDetailFragment : Fragment() {
         else
             setGenderSymbol(R.drawable.female)
 
-        firebaseFirestore.collection("Users").document(currentUserID).get()
+        firebaseFirestore.collection("Users").document(args?.ownerID.toString()).get()
             .addOnSuccessListener { documentSnapshot ->
                 name = documentSnapshot.getString("username").toString()
                 bio = documentSnapshot.getString("user_bio").toString()

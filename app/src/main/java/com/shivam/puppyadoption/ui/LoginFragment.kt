@@ -60,7 +60,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    fun toggleProgressBar() {
+    private fun toggleProgressBar() {
         if (binding.loginProgressBar.visibility == View.VISIBLE) {
             binding.loginProgressBar.visibility = View.INVISIBLE
             binding.loginBtn.isEnabled = true

@@ -24,6 +24,9 @@ class RequestFragment : Fragment(), OnButtonClickListener {
     private lateinit var binding: FragmentRequestBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var currentUserID: String
+    private lateinit var ownerName: String
+    private lateinit var ownerBio: String
+    private lateinit var ownerImg: String
     private lateinit var adapter: FirestoreRecyclerAdapter<Request, RequestViewHolder>
 
     override fun onCreateView(
@@ -48,6 +51,15 @@ class RequestFragment : Fragment(), OnButtonClickListener {
         binding.requestRv.setHasFixedSize(true)
         binding.requestRv.adapter = adapter
 
+
+        // get current user data
+        firebaseFirestore.collection("Users").document(currentUserID).get()
+            .addOnSuccessListener {
+                ownerName = it.getString("username").toString()
+                ownerBio = it.getString("user_bio").toString()
+                ownerImg = it.getString("user_profile_pic").toString()
+            }
+
         return binding.root
     }
 
@@ -62,9 +74,6 @@ class RequestFragment : Fragment(), OnButtonClickListener {
     }
 
     override fun OnAcceptClickListener(documentSnapshot: DocumentSnapshot, position: Int) {
-        val ownerName = documentSnapshot.getString("username")
-        val ownerBio = documentSnapshot.getString("user_bio")
-        val ownerImg = documentSnapshot.getString("user_profile_pic")
 
         val userID = documentSnapshot.getString("userID").toString()
 

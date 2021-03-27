@@ -69,6 +69,9 @@ class SetupFragment : Fragment() {
 
     private fun saveToFirestore(name: String, bio: String) {
 
+        // show progress bar
+        toggleProgressBar()
+
         // save name and bio
         val fields = hashMapOf(
             "username" to name,
@@ -91,6 +94,7 @@ class SetupFragment : Fragment() {
                     findNavController().popBackStack()
                 }
             } else {
+                toggleProgressBar() // hide progress bar
                 Toast.makeText(context, "Something went wrong!", Toast.LENGTH_SHORT).show()
             }
         }
@@ -132,6 +136,16 @@ class SetupFragment : Fragment() {
                 Toast.makeText(requireContext(), "Error : ${result.error}", Toast.LENGTH_SHORT)
                     .show()
             }
+        }
+    }
+
+    fun toggleProgressBar() {
+        if (binding.setupProgressBar.visibility == View.VISIBLE) {
+            binding.setupProgressBar.visibility = View.INVISIBLE
+            binding.setupBtn.isEnabled = true
+        } else {
+            binding.setupProgressBar.visibility = View.VISIBLE
+            binding.setupBtn.isEnabled = false
         }
     }
 

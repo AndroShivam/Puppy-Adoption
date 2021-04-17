@@ -27,3 +27,6 @@ Adopting a dog can be a very rewarding experience and Puppy Adoption app has mad
 - [CircleImageView](https://github.com/hdodenhof/CircleImageView) - A circular ImageView for Android
 - [Firebase](https://firebase.google.com/) - Firebase is Google's mobile platform that helps you quickly develop high-quality apps and grow your business.
 - [Glide](https://github.com/bumptech/glide) - An image loading and caching library for Android focused on smooth scrolling
+
+## Additional Credits
+- [unDraw](https://undraw.co/) - Open-source illustrations for any idea you can imagine and create.

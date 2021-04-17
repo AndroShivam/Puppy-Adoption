@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             R.navigation.nav_home,
             R.navigation.nav_request,
             R.navigation.nav_post,
-            R.navigation.nav_notification,
+            R.navigation.nav_message,
             R.navigation.nav_profile
         )
 

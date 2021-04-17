@@ -19,7 +19,7 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
 
         // firebase
@@ -27,6 +27,10 @@ class LoginFragment : Fragment() {
 
         binding.loginGotoReg.setOnClickListener {
             view?.findNavController()?.navigate(R.id.action_loginFragment_to_registerFragment)
+        }
+
+        binding.loginForgotPass.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_loginFragment_to_resetPasswordFragment)
         }
 
         binding.loginBtn.setOnClickListener {
@@ -55,7 +59,8 @@ class LoginFragment : Fragment() {
                 view?.findNavController()?.navigate(R.id.action_loginFragment_to_mainActivity)
             } else {
                 toggleProgressBar()
-                Toast.makeText(context, "Error : ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Error : ${task.exception?.message}", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

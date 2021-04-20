@@ -11,9 +11,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import com.shivam.puppyadoption.R
-import com.shivam.puppyadoption.ui.ContactOwnerBottomSheetFragmentArgs
 import com.shivam.puppyadoption.databinding.FragmentContactBottomSheetBinding
 
 class ContactOwnerBottomSheetFragment : BottomSheetDialogFragment() {
@@ -62,18 +60,19 @@ class ContactOwnerBottomSheetFragment : BottomSheetDialogFragment() {
         binding.askForAdoptionBtn.setOnClickListener {
             val reason = binding.contactWhy.text.toString()
             if (!TextUtils.isEmpty(reason))
-                storeToFirestore(reason)
+                storeToFirestore(reason, args?.dogName.toString())
         }
         return binding.root
     }
 
-    private fun storeToFirestore(reason: String) {
+    private fun storeToFirestore(reason: String, dogName: String) {
         val fields = hashMapOf(
             "userID" to currentUserID,
             "reason" to reason,
             "username" to currentUserName,
             "user_bio" to currentUserBio,
-            "user_profile_pic" to currentUserImg
+            "user_profile_pic" to currentUserImg,
+            "dog_name" to dogName
         )
 
         firebaseFirestore.collection("Users").document(ownerID).collection("Requests")

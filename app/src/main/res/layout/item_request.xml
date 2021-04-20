@@ -14,8 +14,8 @@
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/request_img"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             app:layout_constraintEnd_toStartOf="@id/request_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -23,61 +23,46 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/request_name"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/request_bio"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/request_img"
             app:layout_constraintTop_toTopOf="@id/request_img"
             tools:text="@tools:sample/first_names" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/request_bio"
-            android:layout_width="0dp"
+            android:id="@+id/request_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="3"
-            app:layout_constraintBottom_toBottomOf="@id/request_img"
+            android:layout_marginStart="4dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/request_name"
-            app:layout_constraintTop_toBottomOf="@id/request_name"
-            tools:text="@tools:sample/lorem/random" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/request_name"
+            app:layout_constraintTop_toTopOf="@id/request_name"
+            android:text="@string/wants_to_adopt" />
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/request_dog_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/request_text"
+            app:layout_constraintTop_toTopOf="@id/request_text"
+            tools:text="@tools:sample/first_names" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/request_reason"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:maxLines="5"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/request_img"
             app:layout_constraintTop_toBottomOf="@id/request_img"
             tools:text="@tools:sample/lorem/random" />
 
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/request_decline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/decline"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/request_accept"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/request_reason" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/request_accept"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/accept"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/request_decline"
-            app:layout_constraintTop_toBottomOf="@id/request_reason" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

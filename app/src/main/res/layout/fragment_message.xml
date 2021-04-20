@@ -6,12 +6,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.NotificationFragment">
+        tools:context=".ui.MessageFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/notification_rv"
+            android:id="@+id/message_rv"
             android:layout_width="match_parent"
-            tools:listitem="@layout/items_notification"
+            tools:listitem="@layout/item_messages"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"

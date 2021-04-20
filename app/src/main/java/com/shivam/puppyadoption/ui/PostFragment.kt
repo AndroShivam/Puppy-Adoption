@@ -92,8 +92,6 @@ class PostFragment : Fragment() {
             gender = resources.getString(R.string.radio_female)
         }
 
-        // Chip Group
-
         // Post button
         binding.newPostBtn.setOnClickListener {
             val name = binding.newDogName.text.toString().trim()

@@ -1,6 +1,7 @@
 package com.shivam.puppyadoption.ui
 
 import android.os.Bundle
+import android.text.TextUtils.isEmpty
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -81,6 +82,4 @@ class LoginFragment : Fragment() {
             view?.findNavController()?.navigate(R.id.action_loginFragment_to_mainActivity)
         }
     }
-
-    private fun isEmpty(input: String): Boolean = input.trim().isEmpty()
 }

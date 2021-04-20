@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -17,17 +18,27 @@ import com.shivam.puppyadoption.databinding.FragmentRequestBinding
 import com.shivam.puppyadoption.ui.adapter.Request
 import com.shivam.puppyadoption.ui.adapter.RequestAdapter
 import com.shivam.puppyadoption.ui.adapter.RequestViewHolder
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 
 
 class RequestFragment : Fragment(), OnButtonClickListener {
 
     private lateinit var binding: FragmentRequestBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var adapter: FirestoreRecyclerAdapter<Request, RequestViewHolder>
+
+    // current user
     private lateinit var currentUserID: String
     private lateinit var ownerName: String
     private lateinit var ownerBio: String
     private lateinit var ownerImg: String
-    private lateinit var adapter: FirestoreRecyclerAdapter<Request, RequestViewHolder>
+
+    // user who sent request
+    private lateinit var userID: String
+    private lateinit var userName: String
+    private lateinit var userBio: String
+    private lateinit var userImg: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,16 +62,76 @@ class RequestFragment : Fragment(), OnButtonClickListener {
         binding.requestRv.setHasFixedSize(true)
         binding.requestRv.adapter = adapter
 
-
         // get current user data
-        firebaseFirestore.collection("Users").document(currentUserID).get()
-            .addOnSuccessListener {
-                ownerName = it.getString("username").toString()
-                ownerBio = it.getString("user_bio").toString()
-                ownerImg = it.getString("user_profile_pic").toString()
-            }
+
+        GlobalScope.launch(Dispatchers.IO) {
+            firebaseFirestore.collection("Users").document(currentUserID).get()
+                .addOnSuccessListener {
+                    ownerName = it.getString("username").toString()
+                    ownerBio = it.getString("user_bio").toString()
+                    ownerImg = it.getString("user_profile_pic").toString()
+                }.await()
+        }
+
 
         return binding.root
+    }
+
+    override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int) {
+        val userID = documentSnapshot.getString("userID").toString()
+
+        firebaseFirestore.collection("Users").document(userID).get()
+            .addOnSuccessListener {
+                userName = it.getString("username").toString()
+                userBio = it.getString("user_bio").toString()
+                userImg = it.getString("user_profile_pic").toString()
+            }
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Request")
+            .setMessage("Do you want to add ?")
+            .setNegativeButton("Decline") { dialog, which ->
+                declineRequest(documentSnapshot)
+            }
+            .setPositiveButton("Accept") { dialog, which ->
+                acceptRequest(documentSnapshot)
+            }.show()
+    }
+
+    private fun acceptRequest(documentSnapshot: DocumentSnapshot) {
+        // for user (create friend collection and add the person who sent request)
+        val friendFields = hashMapOf(
+            "friend_name" to userName,
+            "friend_bio" to userBio,
+            "friend_profile_pic" to userImg,
+            "friend_id" to userID
+        )
+
+        val friendFields1 = hashMapOf(
+            "friend_name" to ownerName,
+            "friend_bio" to ownerBio,
+            "friend_profile_pic" to ownerImg,
+            "friend_id" to currentUserID
+        )
+        firebaseFirestore.collection("Users").document(currentUserID).collection("Friends")
+            .document(userID).set(friendFields)
+
+        firebaseFirestore.collection("Users").document(userID).collection("Friends")
+            .document(currentUserID).set(friendFields1)
+
+
+        firebaseFirestore.collection("Users").document(currentUserID).collection("Requests")
+            .document(documentSnapshot.id).delete().addOnSuccessListener {
+                Toast.makeText(context, "Request Accepted!", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun declineRequest(documentSnapshot: DocumentSnapshot) {
+        firebaseFirestore.collection("Users").document(currentUserID).collection("Requests")
+            .document(documentSnapshot.id).delete()
+            .addOnSuccessListener {
+                Toast.makeText(context, "Request Declined!", Toast.LENGTH_SHORT).show()
+            }
     }
 
     override fun onStart() {
@@ -72,32 +143,8 @@ class RequestFragment : Fragment(), OnButtonClickListener {
         super.onStop()
         adapter.stopListening()
     }
-
-    override fun OnAcceptClickListener(documentSnapshot: DocumentSnapshot, position: Int) {
-
-        val userID = documentSnapshot.getString("userID").toString()
-
-        val fields =
-            hashMapOf("ownerName" to ownerName, "ownerBio" to ownerBio, "ownerImg" to ownerImg)
-        firebaseFirestore.collection("Users").document(userID).collection("Accepted")
-            .document().set(fields)
-
-        firebaseFirestore.collection("Users").document(currentUserID).collection("Requests")
-            .document(documentSnapshot.id).delete().addOnSuccessListener {
-                Toast.makeText(context, "Request Accepted!", Toast.LENGTH_SHORT).show()
-            }
-    }
-
-    override fun OnDeclineClickListener(documentSnapshot: DocumentSnapshot, position: Int) {
-        firebaseFirestore.collection("Users").document(currentUserID).collection("Requests")
-            .document(documentSnapshot.id).delete()
-            .addOnSuccessListener {
-                Toast.makeText(context, "Request Declined!", Toast.LENGTH_SHORT).show()
-            }
-    }
 }
 
 interface OnButtonClickListener {
-    fun OnAcceptClickListener(documentSnapshot: DocumentSnapshot, position: Int)
-    fun OnDeclineClickListener(documentSnapshot: DocumentSnapshot, position: Int)
+    fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int)
 }

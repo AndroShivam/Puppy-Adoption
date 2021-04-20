@@ -1,7 +1,7 @@
 package com.shivam.puppyadoption.ui
 
 import android.os.Bundle
-import android.text.TextUtils
+import android.text.TextUtils.isEmpty
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -33,10 +33,7 @@ class RegisterFragment : Fragment() {
             val pass = binding.regPassword.text.toString()
             val confirmPass = binding.regConfirmPassword.text.toString()
 
-            if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(pass) && !TextUtils.isEmpty(
-                    confirmPass
-                )
-            ) {
+            if (!isEmpty(email) && !isEmpty(pass) && !isEmpty(confirmPass)) {
                 if (pass == confirmPass) {
                     registerUser(email, pass)
                 } else {

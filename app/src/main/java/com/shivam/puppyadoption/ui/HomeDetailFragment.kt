@@ -23,6 +23,7 @@ class HomeDetailFragment : Fragment() {
     private lateinit var name: String
     private lateinit var bio: String
     private lateinit var img: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +48,10 @@ class HomeDetailFragment : Fragment() {
         else
             setGenderSymbol(R.drawable.female)
 
+        // disable adoption button for owner
+        if (currentUserID == args?.ownerID.toString())
+            binding.detailContactBtn.isEnabled = false
+
         firebaseFirestore.collection("Users").document(args?.ownerID.toString()).get()
             .addOnSuccessListener { documentSnapshot ->
                 name = documentSnapshot.getString("username").toString()
@@ -62,7 +67,8 @@ class HomeDetailFragment : Fragment() {
                     ownerName = name,
                     ownerBio = bio,
                     ownerImg = img,
-                    ownerID = args?.ownerID.toString()
+                    ownerID = args?.ownerID.toString(),
+                    dogName = args?.dogName.toString()
                 )
 
             view?.findNavController()?.navigate(action)

@@ -21,7 +21,7 @@ class HomeAdapter(
 ) :
     FirestoreRecyclerAdapter<Post, PostViewHolder>(options) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.items_home, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_home, parent, false)
         return PostViewHolder(view, options, listener)
     }
 

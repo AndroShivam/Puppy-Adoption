@@ -65,5 +65,8 @@
         <argument
             android:name="ownerID"
             app:argType="string" />
+        <argument
+            android:name="dogName"
+            app:argType="string" />
     </dialog>
 </navigation>

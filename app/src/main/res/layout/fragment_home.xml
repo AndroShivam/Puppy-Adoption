@@ -20,7 +20,7 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/items_home" />
+                tools:listitem="@layout/item_home" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -48,7 +48,7 @@
     <string name="rescued">Rescued</string>
     <string name="muscular">Muscular</string>
     <string name="giant">Giant</string>
-    <string name="create_a_new_account">New to our App ? Create a account</string>
+    <string name="create_a_new_account">New to our App ? Create an account</string>
     <string name="person_with_dog">Person with dog</string>
     <string name="logout">Logout</string>
     <string name="save">Save</string>
@@ -82,4 +82,7 @@
     <string name="decline">Decline</string>
     <string name="reset_password">Reset Password</string>
     <string name="forgot_password">Forgot Password ?</string>
+    <string name="send">Send</string>
+    <string name="type_your_message">Type your message</string>
+    <string name="wants_to_adopt">wants to adopt</string>
 </resources>

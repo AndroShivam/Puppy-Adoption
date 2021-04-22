@@ -12,17 +12,19 @@ Adopting a dog can be a very rewarding experience and Puppy Adoption app has mad
 
 
 ### Screenshots
-[<img src="https://user-images.githubusercontent.com/52043419/112719881-581e3700-8f21-11eb-8282-5c19df49bf17.png" width=160>](https://user-images.githubusercontent.com/52043419/112719881-581e3700-8f21-11eb-8282-5c19df49bf17.png)
-[<img src="https://user-images.githubusercontent.com/52043419/112719882-58b6cd80-8f21-11eb-903b-a4955d7ea2fa.png" width=160>](https://user-images.githubusercontent.com/52043419/112719882-58b6cd80-8f21-11eb-903b-a4955d7ea2fa.png)
-[<img src="https://user-images.githubusercontent.com/52043419/112719878-56547380-8f21-11eb-85d2-9be19ab8c964.png" width=160>](https://user-images.githubusercontent.com/52043419/112719878-56547380-8f21-11eb-85d2-9be19ab8c964.png)
-[<img src="https://user-images.githubusercontent.com/52043419/112719870-518fbf80-8f21-11eb-9318-859ccdb0409e.png" width=160>](https://user-images.githubusercontent.com/52043419/112719870-518fbf80-8f21-11eb-9318-859ccdb0409e.png)
-[<img src="https://user-images.githubusercontent.com/52043419/112719872-518fbf80-8f21-11eb-9992-cb2f507a18b5.png" width=160>](https://user-images.githubusercontent.com/52043419/112719872-518fbf80-8f21-11eb-9992-cb2f507a18b5.png)
-[<img src="https://user-images.githubusercontent.com/52043419/112719874-53598300-8f21-11eb-8109-f0b9aa7a7f58.png" width=160>](https://user-images.githubusercontent.com/52043419/112719874-53598300-8f21-11eb-8109-f0b9aa7a7f58.png)
-[<img src="https://user-images.githubusercontent.com/52043419/112719873-52285600-8f21-11eb-8e67-1c477572406e.png" width=160>](https://user-images.githubusercontent.com/52043419/112719873-52285600-8f21-11eb-8e67-1c477572406e.png)
-[<img src="https://user-images.githubusercontent.com/52043419/112719880-5785a080-8f21-11eb-8f55-4cdc3ec984db.png" width=160>](https://user-images.githubusercontent.com/52043419/112719880-5785a080-8f21-11eb-8f55-4cdc3ec984db.png)
-[<img src="https://user-images.githubusercontent.com/52043419/112719883-594f6400-8f21-11eb-98d2-e52907b5ce12.png" width=160>](https://user-images.githubusercontent.com/52043419/112719883-594f6400-8f21-11eb-98d2-e52907b5ce12.png)
-[<img src="https://user-images.githubusercontent.com/52043419/112719884-59e7fa80-8f21-11eb-93c0-0b8d3edaf562.png" width=160>](https://user-images.githubusercontent.com/52043419/112719884-59e7fa80-8f21-11eb-93c0-0b8d3edaf562.png)
 
+ Register                             | Setup                                        | Home 			                    | Filter Results
+:------------------------------------------:|:-------------------------------------------:|:-----------------------------------------------:|:----------------------------------------:
+ <img src="https://user-images.githubusercontent.com/52043419/112719882-58b6cd80-8f21-11eb-903b-a4955d7ea2fa.png" width="200"> | <img src="https://user-images.githubusercontent.com/52043419/112719878-56547380-8f21-11eb-85d2-9be19ab8c964.png" width="200">  |<img src="https://user-images.githubusercontent.com/52043419/112719874-53598300-8f21-11eb-8109-f0b9aa7a7f58.png" width="200">|<img src="https://user-images.githubusercontent.com/52043419/115717270-a2b39780-a397-11eb-8c7a-dffda28cbdf4.png" width="200">
+
+  Home Detail                      |  Send Request For Adoption                           | Requests For Adoption                       | Accepted Requests
+:-----------------------------------------:|:--------------------------------------------:|:-----------------------------------------------:|:-------------------------------------:
+ <img src="https://user-images.githubusercontent.com/52043419/112719873-52285600-8f21-11eb-8e67-1c477572406e.png" width="200">| <img src="https://user-images.githubusercontent.com/52043419/112719880-5785a080-8f21-11eb-8f55-4cdc3ec984db.png" width="200">|<img src="https://user-images.githubusercontent.com/52043419/112719883-594f6400-8f21-11eb-98d2-e52907b5ce12.png" width="200">|<img src="https://user-images.githubusercontent.com/52043419/115715174-857dc980-a395-11eb-9298-0bd4deb00871.png" width="200">
+ 
+  Chat                           | Post1                             | Post2                       | Profile
+:-----------------------------------------:|:--------------------------------------------:|:-----------------------------------------------:|:-------------------------------------:
+ <img src="https://user-images.githubusercontent.com/52043419/115715298-a0e8d480-a395-11eb-9cd3-0e7c7abb3917.png" width="200">| <img src="https://user-images.githubusercontent.com/52043419/112719870-518fbf80-8f21-11eb-9318-859ccdb0409e.png" width="200">|<img src="https://user-images.githubusercontent.com/52043419/112719872-518fbf80-8f21-11eb-9992-cb2f507a18b5.png" width="200">|<img src="https://user-images.githubusercontent.com/52043419/115715674-0046e480-a396-11eb-86e7-3627718366fd.png" width="200">
+ 
 ## Tech stack & Open-source libraries
 - [CircleImageView](https://github.com/hdodenhof/CircleImageView) - A circular ImageView for Android
 - [Firebase](https://firebase.google.com/) - Firebase is Google's mobile platform that helps you quickly develop high-quality apps and grow your business.

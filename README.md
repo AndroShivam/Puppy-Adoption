@@ -23,7 +23,7 @@ Adopting a dog can be a very rewarding experience and Puppy Adoption app has mad
  
   Chat                           | Post1                             | Post2                       | Profile
 :-----------------------------------------:|:--------------------------------------------:|:-----------------------------------------------:|:-------------------------------------:
- <img src="https://user-images.githubusercontent.com/52043419/115715298-a0e8d480-a395-11eb-9cd3-0e7c7abb3917.png" width="200">| <img src="https://user-images.githubusercontent.com/52043419/112719870-518fbf80-8f21-11eb-9318-859ccdb0409e.png" width="200">|<img src="https://user-images.githubusercontent.com/52043419/112719872-518fbf80-8f21-11eb-9992-cb2f507a18b5.png" width="200">|<img src="https://user-images.githubusercontent.com/52043419/115715674-0046e480-a396-11eb-86e7-3627718366fd.png" width="200">
+ <img src="https://user-images.githubusercontent.com/52043419/115718790-199d6000-a399-11eb-8840-7fd8510a707b.png" width="200">| <img src="https://user-images.githubusercontent.com/52043419/112719870-518fbf80-8f21-11eb-9318-859ccdb0409e.png" width="200">|<img src="https://user-images.githubusercontent.com/52043419/112719872-518fbf80-8f21-11eb-9992-cb2f507a18b5.png" width="200">|<img src="https://user-images.githubusercontent.com/52043419/115715674-0046e480-a396-11eb-86e7-3627718366fd.png" width="200">
  
 ## Tech stack & Open-source libraries
 - [CircleImageView](https://github.com/hdodenhof/CircleImageView) - A circular ImageView for Android

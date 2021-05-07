@@ -1,12 +1,12 @@
 package com.shivam.puppyadoption.ui
 
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -24,6 +24,8 @@ class ContactOwnerBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var currentUserBio: String
     private lateinit var currentUserImg: String
     private lateinit var firebaseFirestore: FirebaseFirestore
+
+    private val args : ContactOwnerBottomSheetFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,17 +52,16 @@ class ContactOwnerBottomSheetFragment : BottomSheetDialogFragment() {
 
 
         // args
-        val args = arguments?.let { ContactOwnerBottomSheetFragmentArgs.fromBundle(it) }
-        ownerID = args?.ownerID.toString()
-        binding.contactName.text = args?.ownerName
-        binding.contactBio.text = args?.ownerBio
-        Glide.with(this).load(args?.ownerImg).into(binding.contactProfilePic)
+        ownerID = args.ownerID
+        binding.contactName.text = args.ownerName
+        binding.contactBio.text = args.ownerBio
+        Glide.with(this).load(args.ownerImg).into(binding.contactProfilePic)
 
         // btn
         binding.askForAdoptionBtn.setOnClickListener {
             val reason = binding.contactWhy.text.toString()
-            if (!TextUtils.isEmpty(reason))
-                storeToFirestore(reason, args?.dogName.toString())
+            if (reason.isNotEmpty())
+                storeToFirestore(reason, args.dogName)
         }
         return binding.root
     }

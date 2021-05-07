@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -17,7 +17,6 @@ import com.shivam.puppyadoption.databinding.FragmentMessageBinding
 import com.shivam.puppyadoption.ui.adapter.Friend
 import com.shivam.puppyadoption.ui.adapter.FriendViewHolder
 import com.shivam.puppyadoption.ui.adapter.MessageAdapter
-import com.shivam.puppyadoption.ui.adapter.PostViewHolder
 
 class MessageFragment : Fragment(), OnItemClickListener {
 
@@ -39,10 +38,8 @@ class MessageFragment : Fragment(), OnItemClickListener {
         currentUserID = auth.currentUser?.uid.toString()
 
         // query
-
         val query = FirebaseFirestore.getInstance().collection("Users").document(currentUserID)
             .collection("Friends")
-
         val firestoreRecyclerOptions = FirestoreRecyclerOptions.Builder<Friend>()
             .setQuery(query, Friend::class.java)
             .build()
@@ -59,7 +56,7 @@ class MessageFragment : Fragment(), OnItemClickListener {
         val action = MessageFragmentDirections.actionMessageFragmentToChatFragment(
             friendID = friendID
         )
-        view?.findNavController()?.navigate(action)
+        findNavController().navigate(action)
     }
 
     override fun onStart() {
@@ -71,5 +68,4 @@ class MessageFragment : Fragment(), OnItemClickListener {
         super.onStop()
         adapter.stopListening()
     }
-
 }

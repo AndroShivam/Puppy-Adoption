@@ -1,14 +1,13 @@
 package com.shivam.puppyadoption.ui
 
 import android.os.Bundle
-import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.databinding.FragmentResetPasswordBinding
@@ -28,7 +27,7 @@ class ResetPasswordFragment : Fragment() {
 
         binding.resetPassBtn.setOnClickListener {
             val email: String = binding.resetPassEmail.text.toString()
-            if (!TextUtils.isEmpty(email))
+            if (email.isNotEmpty())
                 resetPassword(email)
             else
                 Toast.makeText(context, "Email can't be empty!", Toast.LENGTH_SHORT).show()
@@ -40,7 +39,7 @@ class ResetPasswordFragment : Fragment() {
         auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Toast.makeText(context, "Please check your Email!", Toast.LENGTH_SHORT).show()
-                view?.findNavController()?.navigate(R.id.action_resetPasswordFragment_to_loginFragment)
+                findNavController().navigate(R.id.action_resetPasswordFragment_to_loginFragment)
             } else {
                 Toast.makeText(context, "Error : ${task.exception?.message}", Toast.LENGTH_SHORT)
                     .show()

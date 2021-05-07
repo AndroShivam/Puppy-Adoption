@@ -90,10 +90,10 @@ class RequestFragment : Fragment(), OnButtonClickListener {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Request")
             .setMessage("Do you want to add ?")
-            .setNegativeButton("Decline") { dialog, which ->
+            .setNegativeButton("Decline") { _, _ ->
                 declineRequest(documentSnapshot)
             }
-            .setPositiveButton("Accept") { dialog, which ->
+            .setPositiveButton("Accept") { _, _ ->
                 acceptRequest(documentSnapshot)
             }.show()
     }

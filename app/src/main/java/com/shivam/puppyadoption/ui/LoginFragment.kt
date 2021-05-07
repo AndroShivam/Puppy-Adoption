@@ -1,14 +1,13 @@
 package com.shivam.puppyadoption.ui
 
 import android.os.Bundle
-import android.text.TextUtils.isEmpty
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.databinding.FragmentLoginBinding
@@ -27,29 +26,28 @@ class LoginFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         binding.loginGotoReg.setOnClickListener {
-            view?.findNavController()?.navigate(R.id.action_loginFragment_to_registerFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
         binding.loginForgotPass.setOnClickListener {
-            view?.findNavController()?.navigate(R.id.action_loginFragment_to_resetPasswordFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_resetPasswordFragment)
         }
 
         binding.loginBtn.setOnClickListener {
             val email: String = binding.loginEmail.text.toString()
             val pass: String = binding.loginPassword.text.toString()
 
-            if (!isEmpty(email) && !isEmpty(pass)) {
+            if (email.isNotEmpty() && pass.isNotEmpty()) {
                 loginUser(email, pass)
-            } else if (isEmpty(email) && isEmpty(pass)) {
+            } else if (email.isEmpty() && pass.isEmpty()) {
                 binding.loginEmailLayout.error = "Email can't be empty"
                 binding.loginPasswordLayout.error = "Password can't be empty"
-            } else if (isEmpty(email)) {
+            } else if (email.isEmpty()) {
                 binding.loginEmailLayout.error = "Email can't be empty"
-            } else if (isEmpty(pass)) {
+            } else if (pass.isEmpty()) {
                 binding.loginPasswordLayout.error = "Password can't be empty"
             }
         }
-
         return binding.root
     }
 
@@ -57,7 +55,8 @@ class LoginFragment : Fragment() {
         toggleProgressBar()
         auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                view?.findNavController()?.navigate(R.id.action_loginFragment_to_mainActivity)
+                findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+                binding.loginBtn.isEnabled = true
             } else {
                 toggleProgressBar()
                 Toast.makeText(context, "Error : ${task.exception?.message}", Toast.LENGTH_SHORT)
@@ -79,7 +78,7 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         if (auth.currentUser != null) {
-            view?.findNavController()?.navigate(R.id.action_loginFragment_to_mainActivity)
+            findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
         }
     }
 }

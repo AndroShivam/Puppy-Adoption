@@ -1,7 +1,6 @@
 package com.shivam.puppyadoption.ui
 
 import android.os.Bundle
-import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -55,7 +54,7 @@ class ChatFragment : Fragment() {
 
         binding.chatSendBtn.setOnClickListener {
             val message: String = binding.chatEditTxt.text.toString()
-            if (!TextUtils.isEmpty(message))
+            if (message.isNotEmpty())
                 sendMessage(message, currentUserID, friendID, comboID)
         }
 

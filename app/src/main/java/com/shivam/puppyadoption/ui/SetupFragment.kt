@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,8 +24,10 @@ import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.databinding.FragmentSetupBinding
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import com.vmadalin.easypermissions.EasyPermissions
+import com.vmadalin.easypermissions.dialogs.SettingsDialog
 
-class SetupFragment : Fragment() {
+class SetupFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private lateinit var binding: FragmentSetupBinding
     private lateinit var currentUserID: String
@@ -38,13 +38,13 @@ class SetupFragment : Fragment() {
 
 
     companion object {
-        private const val STORAGE_PERMISSION_CODE = 123
+        private const val STORAGE_PERMISSION_CODE = 456
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_setup, container, false)
 
         // init
@@ -54,13 +54,16 @@ class SetupFragment : Fragment() {
         currentUserID = auth.currentUser?.uid.toString()
 
         binding.setupPicture.setOnClickListener {
-            checkPermission()
+            if (hasStoragePermission())
+                openGallery()
+            else
+                requestStoragePermission()
         }
 
         binding.setupBtn.setOnClickListener {
             val name = binding.setupName.text.toString()
             val bio = binding.setupBio.text.toString()
-            if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(bio) && profileImageURI != Uri.EMPTY)
+            if (name.isNotEmpty() && bio.isNotEmpty() && profileImageURI != Uri.EMPTY)
                 saveToFirestore(name, bio);
         }
 
@@ -68,8 +71,6 @@ class SetupFragment : Fragment() {
     }
 
     private fun saveToFirestore(name: String, bio: String) {
-
-        // show progress bar
         toggleProgressBar()
 
         // save name and bio
@@ -90,7 +91,7 @@ class SetupFragment : Fragment() {
                         .document(currentUserID)
                         .set(fields, SetOptions.merge())
                     // open main activity
-                    view?.findNavController()?.navigate(R.id.action_setupFragment_to_mainActivity)
+                    findNavController().navigate(R.id.action_setupFragment_to_mainActivity)
                     findNavController().popBackStack()
                 }
             } else {
@@ -100,22 +101,17 @@ class SetupFragment : Fragment() {
         }
     }
 
+    private fun hasStoragePermission() =
+        EasyPermissions.hasPermissions(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
 
-    private fun checkPermission() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            openGallery()
-        } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                STORAGE_PERMISSION_CODE
-            )
-        }
+    private fun requestStoragePermission() {
+        EasyPermissions.requestPermissions(
+            this,
+            "We can't choose a profile picture without this permission",
+            STORAGE_PERMISSION_CODE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
     }
-
 
     private fun openGallery() {
         CropImage.activity()
@@ -124,9 +120,30 @@ class SetupFragment : Fragment() {
             .start(requireContext(), this)
     }
 
+    private fun toggleProgressBar() {
+        if (binding.setupProgressBar.visibility == View.VISIBLE) {
+            binding.setupProgressBar.visibility = View.INVISIBLE
+            binding.setupBtn.isEnabled = true
+        } else {
+            binding.setupProgressBar.visibility = View.VISIBLE
+            binding.setupBtn.isEnabled = false
+        }
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            SettingsDialog.Builder(requireActivity()).build().show()
+        } else {
+            requestStoragePermission()
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        openGallery()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
             if (resultCode == Activity.RESULT_OK) {
@@ -139,27 +156,12 @@ class SetupFragment : Fragment() {
         }
     }
 
-    fun toggleProgressBar() {
-        if (binding.setupProgressBar.visibility == View.VISIBLE) {
-            binding.setupProgressBar.visibility = View.INVISIBLE
-            binding.setupBtn.isEnabled = true
-        } else {
-            binding.setupProgressBar.visibility = View.VISIBLE
-            binding.setupBtn.isEnabled = false
-        }
-    }
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        when (requestCode) {
-            STORAGE_PERMISSION_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    openGallery()
-            }
-            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 }

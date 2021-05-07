@@ -9,15 +9,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.data.model.Chat
 
+private const val LEFT_BUBBLE = 0
+private const val RIGHT_BUBBLE = 1
+
 class ChatAdapter(private val chatList: ArrayList<Chat>) :
     RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
     private val currentUserID = FirebaseAuth.getInstance().currentUser?.uid.toString()
 
-    companion object {
-        private const val LEFT_BUBBLE = 0
-        private const val RIGHT_BUBBLE = 1
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
         return if (viewType == RIGHT_BUBBLE) {

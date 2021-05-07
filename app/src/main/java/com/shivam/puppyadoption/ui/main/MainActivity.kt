@@ -2,6 +2,7 @@ package com.shivam.puppyadoption.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
@@ -45,9 +46,4 @@ class MainActivity : AppCompatActivity() {
 
         currentNavController = controller
     }
-
-
-//    override fun onSupportNavigateUp(): Boolean {
-//        return currentNavController?.value?.navigateUp() ?: false
-//    }
 }

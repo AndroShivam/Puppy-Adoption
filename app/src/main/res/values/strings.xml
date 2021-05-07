@@ -22,14 +22,26 @@
     <string name="gender">Gender</string>
     <string name="age">Age</string>
     <string name="post">Post</string>
-    <string name="radio_male">Male</string>
-    <string name="radio_female">Female</string>
-    <string name="husky">Husky</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
     <string name="years_old">Years Old</string>
     <string name="adopt_me">Adopt me</string>
 
     <string name="get_weight">%1$s kg</string>
     <string name="get_age">%1$s years</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="contact_owner">Contact Owner</string>
+    <string name="specify_reason">Specify Reason</string>
+    <string name="ask_for_adoption">Ask for adoption</string>
+    <string name="request">Request</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="forgot_password">Forgot Password ?</string>
+    <string name="send">Send</string>
+    <string name="type_your_message">Type your message</string>
+    <string name="wants_to_adopt">wants to adopt</string>
 
     <!--    adjectives  about dog -->
     <string name="active">Active</string>
@@ -59,30 +71,36 @@
     <string name="color">Color</string>
     <string name="about">About</string>
     <string name="filter">Filter</string>
+
+    <!-- dog breeds   -->
+    <string name="husky">Husky</string>
+    <string name="labrador_retriever">Labrador Retriever</string>
+    <string name="golden_retriever">Golden Retriever</string>
+    <string name="german_shepherd">German Shepherd</string>
+    <string name="bulldog">BullDog</string>
+    <string name="poodle">Poodle</string>
+    <string name="great_dane">Great Dane</string>
+    <string name="rottweiler">Rottweiler</string>
+    <string name="chihuahua">Chihuahua</string>
+    <string name="dobermann">Dobermann</string>
+    <string name="apply">Apply</string>
+    <string name="clear_filter">Clear Filters</string>
+    <string name="location">Location</string>
+
+
     <!--    dog breeds string array for spinner-->
     <string-array name="breeds">
-        <item>Husky</item>
-        <item>Labrador Retriever</item>
-        <item>Golden Retriever</item>
-        <item>German Shepherd</item>
-        <item>BullDog</item>
-        <item>Poodle</item>
-        <item>Great Dane</item>
-        <item>Rottweiler</item>
-        <item>Chihuahua</item>
-        <item>Dobermann</item>
+        <item>@string/husky</item>
+        <item>@string/labrador_retriever</item>
+        <item>@string/golden_retriever</item>
+        <item>@string/german_shepherd</item>
+        <item>@string/bulldog</item>
+        <item>@string/poodle</item>
+        <item>@string/great_dane</item>
+        <item>@string/rottweiler</item>
+        <item>@string/chihuahua</item>
+        <item>@string/dobermann</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="contact_owner">Contact Owner</string>
-    <string name="specify_reason">Specify Reason</string>
-    <string name="ask_for_adoption">Ask for adoption</string>
-    <string name="request">Request</string>
-    <string name="accept">Accept</string>
-    <string name="decline">Decline</string>
-    <string name="reset_password">Reset Password</string>
-    <string name="forgot_password">Forgot Password ?</string>
-    <string name="send">Send</string>
-    <string name="type_your_message">Type your message</string>
-    <string name="wants_to_adopt">wants to adopt</string>
+
+
 </resources>

@@ -1,14 +1,13 @@
 package com.shivam.puppyadoption.ui
 
 import android.os.Bundle
-import android.text.TextUtils.isEmpty
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.databinding.FragmentRegisterBinding
@@ -20,12 +19,12 @@ class RegisterFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_register, container, false)
         auth = FirebaseAuth.getInstance()
 
         binding.regGotoLogin.setOnClickListener {
-            view?.findNavController()?.navigate(R.id.action_registerFragment_to_loginFragment)
+            findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
         }
 
         binding.regBtn.setOnClickListener {
@@ -33,15 +32,14 @@ class RegisterFragment : Fragment() {
             val pass = binding.regPassword.text.toString()
             val confirmPass = binding.regConfirmPassword.text.toString()
 
-            if (!isEmpty(email) && !isEmpty(pass) && !isEmpty(confirmPass)) {
+            if (email.isNotEmpty() && pass.isNotEmpty() && confirmPass.isNotEmpty()) {
                 if (pass == confirmPass) {
                     registerUser(email, pass)
                 } else {
-                    // password does not match
                     binding.regConfirmPasswordLayout.error = "Password Doesn't Match"
                 }
             } else {
-                // fields can not be empty
+                Toast.makeText(context, "Fields can't be empty!", Toast.LENGTH_SHORT).show()
             }
         }
         return binding.root
@@ -52,7 +50,7 @@ class RegisterFragment : Fragment() {
         auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 toggleProgressBar()
-                view?.findNavController()?.navigate(R.id.action_registerFragment_to_setupFragment)
+                findNavController().navigate(R.id.action_registerFragment_to_setupFragment)
             } else {
                 toggleProgressBar()
                 Toast.makeText(context, "Error : ${task.exception?.message}", Toast.LENGTH_SHORT)

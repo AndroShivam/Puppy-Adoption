@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.databinding.FragmentHomeBinding
 import com.shivam.puppyadoption.ui.adapter.HomeAdapter
@@ -22,6 +24,8 @@ class HomeFragment : Fragment(), OnItemClickListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: FirestoreRecyclerAdapter<Post, PostViewHolder>
     private lateinit var currentUserID: String
+    private lateinit var query: Query
+    private val args: HomeFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,24 +36,33 @@ class HomeFragment : Fragment(), OnItemClickListener {
         // init
         currentUserID = FirebaseAuth.getInstance().currentUser?.uid.toString()
 
-        val query = FirebaseFirestore.getInstance().collection("Posts")
-
-        val firestoreRecyclerOptions = FirestoreRecyclerOptions.Builder<Post>()
-            .setQuery(query, Post::class.java)
-            .build()
-
-        adapter = HomeAdapter(options = firestoreRecyclerOptions, listener = this)
-
-        binding.homeRv.setHasFixedSize(true)
-        binding.homeRv.adapter = adapter
+        // query
+        query = FirebaseFirestore.getInstance().collection("Posts")
+        setAdapter(query)
 
         binding.homeSwipeRefresh.setOnRefreshListener {
             binding.homeSwipeRefresh.isRefreshing = true
+            query = FirebaseFirestore.getInstance().collection("Posts")
+            setAdapter(query)
             adapter.notifyDataSetChanged()
             binding.homeSwipeRefresh.isRefreshing = false
         }
 
+        binding.homeFab.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_filterBottomSheetFragment)
+        }
+
         return binding.root
+    }
+
+    private fun setAdapter(query: Query) {
+        val firestoreRecyclerOptions = FirestoreRecyclerOptions.Builder<Post>()
+            .setQuery(query, Post::class.java)
+            .build()
+        adapter = HomeAdapter(options = firestoreRecyclerOptions, listener = this)
+        binding.homeRv.setHasFixedSize(true)
+        binding.homeRv.adapter = adapter
+        adapter.startListening()
     }
 
     override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int) {
@@ -63,6 +76,10 @@ class HomeFragment : Fragment(), OnItemClickListener {
         val dogColor = documentSnapshot.getString("dog_color").toString()
         val dogImg = documentSnapshot.getString("dog_image").toString()
         val ownerID = documentSnapshot.getString("owner_uid").toString()
+        val geoPoint = documentSnapshot.getGeoPoint("coordinates")
+
+        val lat = geoPoint?.latitude.toString()
+        val lon = geoPoint?.longitude.toString()
 
         val action = HomeFragmentDirections.actionHomeFragmentToHomeDetailFragment(
             dogName = dogName,
@@ -73,9 +90,11 @@ class HomeFragment : Fragment(), OnItemClickListener {
             dogBreed = dogBreed,
             dogWeight = dogWeight,
             dogImg = dogImg,
-            ownerID = ownerID
+            ownerID = ownerID,
+            latitude = lat,
+            longitude = lon
         )
-        view?.findNavController()?.navigate(action)
+        findNavController().navigate(action)
     }
 
     override fun onStart() {
@@ -88,6 +107,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
         adapter.stopListening()
     }
 }
+
 
 interface OnItemClickListener {
     fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int)

@@ -1,17 +1,16 @@
 package com.shivam.puppyadoption.ui
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,9 +22,11 @@ import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.databinding.FragmentProfileBinding
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
+import com.vmadalin.easypermissions.EasyPermissions
+import com.vmadalin.easypermissions.dialogs.SettingsDialog
 
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private lateinit var binding: FragmentProfileBinding
     private lateinit var auth: FirebaseAuth
@@ -33,6 +34,10 @@ class ProfileFragment : Fragment() {
     private lateinit var storageReference: StorageReference
     private lateinit var currentUserID: String
     private var profileImageURI = Uri.EMPTY
+
+    companion object {
+        private const val STORAGE_PERMISSION_CODE = 678
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,25 +63,38 @@ class ProfileFragment : Fragment() {
                 Glide.with(this).load(img).into(binding.profileImg)
             }
 
-
         binding.profileImg.setOnClickListener {
-            openGallery()
+            if (hasStoragePermission())
+                openGallery()
+            else
+                requestStoragePermission()
         }
 
         binding.profileSaveBtn.setOnClickListener {
             val name = binding.profileName.text.toString()
             val bio = binding.profileBio.text.toString()
-
-            if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(bio))
+            if (name.isNotEmpty() && bio.isNotEmpty())
                 saveToFirebase(name, bio)
         }
 
         binding.profileLogoutBtn.setOnClickListener {
             auth.signOut()
-            findNavController().popBackStack()
+            activity?.finish()
         }
 
         return binding.root
+    }
+
+    private fun hasStoragePermission() =
+        EasyPermissions.hasPermissions(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+
+    private fun requestStoragePermission() {
+        EasyPermissions.requestPermissions(
+            this,
+            "We can't choose a profile picture without this permission",
+            STORAGE_PERMISSION_CODE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
     }
 
     private fun openGallery() {
@@ -100,14 +118,12 @@ class ProfileFragment : Fragment() {
             "username" to name,
             "user_bio" to bio
         )
-
         firebaseFirestore.collection("Users").document(currentUserID)
             .set(fields, SetOptions.merge())
     }
 
     private fun saveProfileImage() {
         val imagePath = storageReference.child("User_Profile_Pictures").child("$currentUserID.jpg")
-
         imagePath.putFile(profileImageURI).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 imagePath.downloadUrl.addOnSuccessListener { uri ->
@@ -122,18 +138,37 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            SettingsDialog.Builder(requireActivity()).build().show()
+        } else {
+            requestStoragePermission()
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        openGallery()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
             if (resultCode == Activity.RESULT_OK) {
                 profileImageURI = result.uri
                 binding.profileImg.setImageURI(profileImageURI)
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Toast.makeText(requireContext(), "Error : ${result.error}", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(requireContext(), "Error : ${result.error}", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 }

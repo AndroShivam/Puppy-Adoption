@@ -4,10 +4,11 @@
 Adopting a dog can be a very rewarding experience and Puppy Adoption app has made it easier, It is a small demo application based on the idea of adopting a puppy dog
 </p>
 </br>
-
 <p align="center">
 <img src="https://user-images.githubusercontent.com/52043419/112720085-543ee480-8f22-11eb-8eb7-c924b7db67c0.png" width=60 height=60/>
 </p>
+
+
 
 
 
@@ -28,8 +29,10 @@ Adopting a dog can be a very rewarding experience and Puppy Adoption app has mad
 ## Tech stack & Open-source libraries
 - [CircleImageView](https://github.com/hdodenhof/CircleImageView) - A circular ImageView for Android
 - [Firebase](https://firebase.google.com/) - Firebase is Google's mobile platform that helps you quickly develop high-quality apps and grow your business.
+- [MapSdk](https://developers.google.com/maps/documentation/android-sdk/overview) - Google Map Sdk for Android
 - [Glide](https://github.com/bumptech/glide) - An image loading and caching library for Android focused on smooth scrolling
-- [ThreeTenABP](https://github.com/JakeWharton/ThreeTenABP) - An adaptation of the JSR-310 backport for Android.
+- [ThreeTenABP](https://github.com/JakeWharton/ThreeTenABP) - An adaptation of the JSR-310 backport for Android
+- [EasyPermissions-ktx](https://github.com/VMadalin/easypermissions-ktx) - Kotlin version of the popular google/easypermissions wrapper library to simplify basic system permissions logic on Android M or higher
 
 ## Additional Credits
 - [unDraw](https://undraw.co/) - Open-source illustrations for any idea you can imagine and create.

@@ -25,6 +25,7 @@ class MessageAdapter(
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int, model: Friend) {
         Glide.with(holder.itemView).load(model.friend_profile_pic).into(holder.messageProfilePic)
         holder.messageName.text = model.friend_name
+        holder.lastMessage.text = model.friend_last_message
     }
 }
 
@@ -36,6 +37,7 @@ class FriendViewHolder(
 
     val messageProfilePic: CircularImageView = itemView.findViewById(R.id.message_profile_pic)
     val messageName: MaterialTextView = itemView.findViewById(R.id.message_name)
+    val lastMessage: MaterialTextView = itemView.findViewById(R.id.last_message)
 
     init {
         itemView.setOnClickListener(this)
@@ -52,5 +54,6 @@ class FriendViewHolder(
 data class Friend(
     val friend_name: String = "friend_name",
     val friend_id: String = "friend_id",
-    val friend_profile_pic: String = "friend_profile_pic"
+    val friend_profile_pic: String = "friend_profile_pic",
+    val friend_last_message: String = "Say Hi!"
 )

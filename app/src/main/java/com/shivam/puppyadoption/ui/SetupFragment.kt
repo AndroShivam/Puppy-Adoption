@@ -36,7 +36,6 @@ class SetupFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var storageReference: StorageReference
 
-
     companion object {
         private const val STORAGE_PERMISSION_CODE = 456
     }

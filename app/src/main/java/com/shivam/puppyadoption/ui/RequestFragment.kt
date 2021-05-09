@@ -18,9 +18,6 @@ import com.shivam.puppyadoption.databinding.FragmentRequestBinding
 import com.shivam.puppyadoption.ui.adapter.Request
 import com.shivam.puppyadoption.ui.adapter.RequestAdapter
 import com.shivam.puppyadoption.ui.adapter.RequestViewHolder
-import kotlinx.coroutines.*
-import kotlinx.coroutines.tasks.await
-
 
 class RequestFragment : Fragment(), OnButtonClickListener {
 
@@ -63,22 +60,18 @@ class RequestFragment : Fragment(), OnButtonClickListener {
         binding.requestRv.adapter = adapter
 
         // get current user data
-
-        GlobalScope.launch(Dispatchers.IO) {
-            firebaseFirestore.collection("Users").document(currentUserID).get()
-                .addOnSuccessListener {
-                    ownerName = it.getString("username").toString()
-                    ownerBio = it.getString("user_bio").toString()
-                    ownerImg = it.getString("user_profile_pic").toString()
-                }.await()
-        }
-
+        firebaseFirestore.collection("Users").document(currentUserID).get()
+            .addOnSuccessListener {
+                ownerName = it.getString("username").toString()
+                ownerBio = it.getString("user_bio").toString()
+                ownerImg = it.getString("user_profile_pic").toString()
+            }
 
         return binding.root
     }
 
     override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int) {
-        val userID = documentSnapshot.getString("userID").toString()
+        userID = documentSnapshot.getString("userID").toString()
 
         firebaseFirestore.collection("Users").document(userID).get()
             .addOnSuccessListener {
@@ -99,26 +92,16 @@ class RequestFragment : Fragment(), OnButtonClickListener {
     }
 
     private fun acceptRequest(documentSnapshot: DocumentSnapshot) {
-        // for user (create friend collection and add the person who sent request)
-        val friendFields = hashMapOf(
-            "friend_name" to userName,
-            "friend_bio" to userBio,
-            "friend_profile_pic" to userImg,
-            "friend_id" to userID
-        )
+        // for current user (add the person who sent request to friend list)
+        val currentUserFriendFields = getFields(userName, userBio, userImg, userID)
+        // for user who sent request (add owner of dog to friend list)
+        val userFriendFields = getFields(ownerName, ownerBio, ownerImg, currentUserID)
 
-        val friendFields1 = hashMapOf(
-            "friend_name" to ownerName,
-            "friend_bio" to ownerBio,
-            "friend_profile_pic" to ownerImg,
-            "friend_id" to currentUserID
-        )
         firebaseFirestore.collection("Users").document(currentUserID).collection("Friends")
-            .document(userID).set(friendFields)
+            .document(userID).set(currentUserFriendFields)
 
         firebaseFirestore.collection("Users").document(userID).collection("Friends")
-            .document(currentUserID).set(friendFields1)
-
+            .document(currentUserID).set(userFriendFields)
 
         firebaseFirestore.collection("Users").document(currentUserID).collection("Requests")
             .document(documentSnapshot.id).delete().addOnSuccessListener {
@@ -132,6 +115,17 @@ class RequestFragment : Fragment(), OnButtonClickListener {
             .addOnSuccessListener {
                 Toast.makeText(context, "Request Declined!", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun getFields(
+        name: String, bio: String, img: String, ID: String
+    ): HashMap<String, String> {
+        return hashMapOf(
+            "friend_name" to name,
+            "friend_bio" to bio,
+            "friend_profile_pic" to img,
+            "friend_id" to ID
+        )
     }
 
     override fun onStart() {

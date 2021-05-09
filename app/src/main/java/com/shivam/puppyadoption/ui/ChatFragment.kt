@@ -1,6 +1,7 @@
 package com.shivam.puppyadoption.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -50,6 +51,7 @@ class ChatFragment : Fragment() {
         // Unique ID by combining currentUserID and friendID
         val comboID: String = generateComboID(currentUserID, friendID)
 
+        showProgressBar(true)
         loadMessages(comboID)
 
         binding.chatSendBtn.setOnClickListener {
@@ -72,6 +74,7 @@ class ChatFragment : Fragment() {
         val chatListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 chatList.clear()
+                showProgressBar(false)
                 for (snap in snapshot.children) {
                     val chat: Chat? = snap.getValue(Chat::class.java)
                     if (chat != null) {
@@ -83,6 +86,7 @@ class ChatFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
+                showProgressBar(false)
                 Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
             }
         }
@@ -98,6 +102,14 @@ class ChatFragment : Fragment() {
         binding.chatEditTxt.setText("")
         val chat = Chat(message, senderID, receiverID, getCurrentTime())
         database.child(comboID).push().setValue(chat)
+    }
+
+    private fun showProgressBar(show: Boolean) {
+        if (show) {
+            binding.chatProgressBar.visibility = View.VISIBLE
+        } else {
+            binding.chatProgressBar.visibility = View.GONE
+        }
     }
 
     private fun getCurrentTime() =

@@ -9,45 +9,55 @@
         android:layout_height="match_parent"
         tools:context=".ui.ChatFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/chat_rv"
-            app:stackFromEnd="true"
-            tools:listitem="@layout/right_chat_bubble"
-            app:layout_constraintBottom_toTopOf="@+id/chat_linear_layout"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:clipToPadding="false"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+        <ProgressBar
+            android:id="@+id/chat_progress_bar"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/chat_linear_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/chat_rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:clipToPadding="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/chat_linear_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:stackFromEnd="true"
+            tools:listitem="@layout/right_chat_bubble" />
+
         <LinearLayout
+            android:id="@+id/chat_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:id="@+id/chat_linear_layout"
-            app:layout_constraintTop_toBottomOf="@id/chat_rv"
             android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chat_rv">
 
             <EditText
                 android:id="@+id/chat_edit_txt"
                 android:layout_width="0dp"
-                android:padding="12dp"
-                android:background="@drawable/round_edit_text"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="10"
-                android:hint="@string/type_your_message" />
+                android:background="@drawable/round_edit_text"
+                android:hint="@string/type_your_message"
+                android:padding="12dp" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/chat_send_btn"
                 android:layout_width="wrap_content"
-                android:padding="12dp"
                 android:layout_height="wrap_content"
+                android:padding="12dp"
                 android:text="@string/send" />
         </LinearLayout>
 

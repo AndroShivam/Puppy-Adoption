@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/last_message"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/message_profile_pic"
             app:layout_constraintTop_toTopOf="@id/message_profile_pic"

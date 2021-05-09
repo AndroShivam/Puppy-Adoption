@@ -114,10 +114,7 @@ class ProfileFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     private fun saveInfo(name: String, bio: String) {
-        val fields = hashMapOf(
-            "username" to name,
-            "user_bio" to bio
-        )
+        val fields = hashMapOf("username" to name, "user_bio" to bio)
         firebaseFirestore.collection("Users").document(currentUserID)
             .set(fields, SetOptions.merge())
     }
@@ -158,7 +155,8 @@ class ProfileFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 profileImageURI = result.uri
                 binding.profileImg.setImageURI(profileImageURI)
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Toast.makeText(requireContext(), "Error : ${result.error}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Error : ${result.error}", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

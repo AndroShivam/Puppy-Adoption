@@ -34,5 +34,18 @@ Adopting a dog can be a very rewarding experience and Puppy Adoption app has mad
 - [ThreeTenABP](https://github.com/JakeWharton/ThreeTenABP) - An adaptation of the JSR-310 backport for Android
 - [EasyPermissions-ktx](https://github.com/VMadalin/easypermissions-ktx) - Kotlin version of the popular google/easypermissions wrapper library to simplify basic system permissions logic on Android M or higher
 
+## How to Use
+1. Open the Project in your android studio.
+2. Change the Package Name (if you want learn [here](https://stackoverflow.com/questions/16804093/android-studio-rename-package)).
+3. Create Firebase Project (https://console.firebase.google.com/);
+4. Import the file google-service.json into your project
+5. Connect to firebase console authentication and database from your IDE
+6. In firebase Storage Rules, change value of "allow read, write:" from "if request.auth != null" to "if true;"
+7. When you change database settings, you likely will need to uninstall and reinstall apps to avoid app crashes due to app caches.
+8. Get Map API Key from [here](https://developers.google.com/maps/documentation/android-sdk/get-api-key).
+9. Paste it in AndroidManifest.xml.
+10. Build Project.
+11. Enjoy!
+
 ## Additional Credits
 - [unDraw](https://undraw.co/) - Open-source illustrations for any idea you can imagine and create.

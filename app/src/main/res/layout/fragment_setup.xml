@@ -10,11 +10,11 @@
         tools:context=".ui.SetupFragment">
 
         <ProgressBar
+            android:id="@+id/setup_progress_bar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:id="@+id/setup_progress_bar"
-            android:indeterminateOnly="true"
             android:layout_height="wrap_content"
+            android:indeterminateOnly="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +30,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
             tools:src="@tools:sample/avatars" />
-
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/setup_name_layout"

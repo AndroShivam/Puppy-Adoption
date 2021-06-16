@@ -1,12 +1,12 @@
 package com.shivam.puppyadoption.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -38,6 +38,8 @@ class ChatFragment : Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false)
 
+        (activity as AppCompatActivity).supportActionBar?.title = ""
+
         // init
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
@@ -47,6 +49,12 @@ class ChatFragment : Fragment() {
         // args
         val args = arguments?.let { ChatFragmentArgs.fromBundle(it) }
         val friendID = args?.friendID.toString()
+
+        // Set username in toolbar
+        firestore.collection("Users").document(friendID).get().addOnSuccessListener { documentSnapshot ->
+            val name = documentSnapshot.getString("username")
+            (activity as AppCompatActivity).supportActionBar?.title = name
+        }
 
         // Unique ID by combining currentUserID and friendID
         val comboID: String = generateComboID(currentUserID, friendID)

@@ -17,6 +17,7 @@ import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.data.model.Chat
 import com.shivam.puppyadoption.databinding.FragmentChatBinding
 import com.shivam.puppyadoption.ui.adapter.ChatAdapter
+import kotlinx.coroutines.*
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
@@ -51,9 +52,12 @@ class ChatFragment : Fragment() {
         val friendID = args?.friendID.toString()
 
         // Set username in toolbar
-        firestore.collection("Users").document(friendID).get().addOnSuccessListener { documentSnapshot ->
-            val name = documentSnapshot.getString("username")
-            (activity as AppCompatActivity).supportActionBar?.title = name
+        GlobalScope.launch(Dispatchers.IO) {
+            firestore.collection("Users").document(friendID).get()
+                .addOnSuccessListener { documentSnapshot ->
+                    val name = documentSnapshot.getString("username")
+                    (activity as AppCompatActivity).supportActionBar?.title = name
+                }
         }
 
         // Unique ID by combining currentUserID and friendID

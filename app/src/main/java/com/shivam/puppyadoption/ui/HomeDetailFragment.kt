@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -21,7 +20,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.databinding.FragmentHomeDetailBinding
-import kotlin.properties.Delegates
 
 
 const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
@@ -68,7 +66,7 @@ class HomeDetailFragment : Fragment(), OnMapReadyCallback {
         if (currentUserID == args.ownerID)
             binding.detailContactBtn.isEnabled = false
 
-        firebaseFirestore.collection("Users").document(args.ownerID.toString()).get()
+        firebaseFirestore.collection("Users").document(args.ownerID).get()
             .addOnSuccessListener { documentSnapshot ->
                 name = documentSnapshot.getString("username").toString()
                 bio = documentSnapshot.getString("user_bio").toString()
@@ -78,11 +76,11 @@ class HomeDetailFragment : Fragment(), OnMapReadyCallback {
         // map
         var mapViewBundle: Bundle? = null
         if (savedInstanceState != null)
-            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
+            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY)
 
         mapView = binding.detailMap
-        mapView.onCreate(mapViewBundle);
-        mapView.getMapAsync(this);
+        mapView.onCreate(mapViewBundle)
+        mapView.getMapAsync(this)
 
         // btn click
         binding.detailContactBtn.setOnClickListener {

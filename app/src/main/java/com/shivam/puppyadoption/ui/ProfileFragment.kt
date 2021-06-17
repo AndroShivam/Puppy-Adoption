@@ -24,6 +24,9 @@ import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class ProfileFragment : Fragment(), EasyPermissions.PermissionCallbacks {
@@ -51,17 +54,19 @@ class ProfileFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         firebaseFirestore = FirebaseFirestore.getInstance()
         storageReference = FirebaseStorage.getInstance().reference
 
-        val source = Source.CACHE
-        firebaseFirestore.collection("Users").document(currentUserID).get(source)
-            .addOnSuccessListener { documentSnapshot ->
-                val name = documentSnapshot.getString("username").toString()
-                val bio = documentSnapshot.getString("user_bio")
-                val img = documentSnapshot.getString("user_profile_pic")
+        GlobalScope.launch(Dispatchers.IO) {
+            val source = Source.CACHE
+            firebaseFirestore.collection("Users").document(currentUserID).get(source)
+                .addOnSuccessListener { documentSnapshot ->
+                    val name = documentSnapshot.getString("username").toString()
+                    val bio = documentSnapshot.getString("user_bio")
+                    val img = documentSnapshot.getString("user_profile_pic")
 
-                binding.profileName.setText(name)
-                binding.profileBio.setText(bio)
-                Glide.with(this).load(img).into(binding.profileImg)
-            }
+                    binding.profileName.setText(name)
+                    binding.profileBio.setText(bio)
+                    Glide.with(requireContext()).load(img).into(binding.profileImg)
+                }
+        }
 
         binding.profileImg.setOnClickListener {
             if (hasStoragePermission())
@@ -148,7 +153,6 @@ class ProfileFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             val result = CropImage.getActivityResult(data)
             if (resultCode == Activity.RESULT_OK) {
@@ -166,7 +170,6 @@ class ProfileFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 }

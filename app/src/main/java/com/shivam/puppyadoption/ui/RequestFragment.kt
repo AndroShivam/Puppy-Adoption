@@ -18,6 +18,10 @@ import com.shivam.puppyadoption.databinding.FragmentRequestBinding
 import com.shivam.puppyadoption.ui.adapter.Request
 import com.shivam.puppyadoption.ui.adapter.RequestAdapter
 import com.shivam.puppyadoption.ui.adapter.RequestViewHolder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RequestFragment : Fragment(), OnButtonClickListener {
 
@@ -60,35 +64,41 @@ class RequestFragment : Fragment(), OnButtonClickListener {
         binding.requestRv.adapter = adapter
 
         // get current user data
-        firebaseFirestore.collection("Users").document(currentUserID).get()
-            .addOnSuccessListener {
-                ownerName = it.getString("username").toString()
-                ownerBio = it.getString("user_bio").toString()
-                ownerImg = it.getString("user_profile_pic").toString()
-            }
+        GlobalScope.launch(Dispatchers.IO) {
+            firebaseFirestore.collection("Users").document(currentUserID).get()
+                .addOnSuccessListener {
+                    ownerName = it.getString("username").toString()
+                    ownerBio = it.getString("user_bio").toString()
+                    ownerImg = it.getString("user_profile_pic").toString()
+                }
+        }
 
         return binding.root
     }
 
     override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int) {
-        userID = documentSnapshot.getString("userID").toString()
+        GlobalScope.launch {
+            userID = documentSnapshot.getString("userID").toString()
 
-        firebaseFirestore.collection("Users").document(userID).get()
-            .addOnSuccessListener {
-                userName = it.getString("username").toString()
-                userBio = it.getString("user_bio").toString()
-                userImg = it.getString("user_profile_pic").toString()
-            }
+            firebaseFirestore.collection("Users").document(userID).get()
+                .addOnSuccessListener {
+                    userName = it.getString("username").toString()
+                    userBio = it.getString("user_bio").toString()
+                    userImg = it.getString("user_profile_pic").toString()
+                }
 
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Request")
-            .setMessage("Do you want to add ?")
-            .setNegativeButton("Decline") { _, _ ->
-                declineRequest(documentSnapshot)
+            withContext(Dispatchers.Main) {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("Request")
+                    .setMessage("Do you want to add ?")
+                    .setNegativeButton("Decline") { _, _ ->
+                        declineRequest(documentSnapshot)
+                    }
+                    .setPositiveButton("Accept") { _, _ ->
+                        acceptRequest(documentSnapshot)
+                    }.show()
             }
-            .setPositiveButton("Accept") { _, _ ->
-                acceptRequest(documentSnapshot)
-            }.show()
+        }
     }
 
     private fun acceptRequest(documentSnapshot: DocumentSnapshot) {

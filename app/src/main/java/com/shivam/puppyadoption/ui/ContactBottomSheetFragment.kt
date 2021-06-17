@@ -13,6 +13,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.databinding.FragmentContactBottomSheetBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class ContactOwnerBottomSheetFragment : BottomSheetDialogFragment() {
 
@@ -25,7 +28,7 @@ class ContactOwnerBottomSheetFragment : BottomSheetDialogFragment() {
     private lateinit var currentUserImg: String
     private lateinit var firebaseFirestore: FirebaseFirestore
 
-    private val args : ContactOwnerBottomSheetFragmentArgs by navArgs()
+    private val args: ContactOwnerBottomSheetFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,13 +46,14 @@ class ContactOwnerBottomSheetFragment : BottomSheetDialogFragment() {
         currentUserID = auth.currentUser?.uid.toString()
         firebaseFirestore = FirebaseFirestore.getInstance()
 
-        firebaseFirestore.collection("Users").document(currentUserID)
-            .get().addOnSuccessListener { documentSnapshot ->
-                currentUserName = documentSnapshot.getString("username").toString()
-                currentUserBio = documentSnapshot.getString("user_bio").toString()
-                currentUserImg = documentSnapshot.getString("user_profile_pic").toString()
-            }
-
+        GlobalScope.launch(Dispatchers.IO) {
+            firebaseFirestore.collection("Users").document(currentUserID)
+                .get().addOnSuccessListener { documentSnapshot ->
+                    currentUserName = documentSnapshot.getString("username").toString()
+                    currentUserBio = documentSnapshot.getString("user_bio").toString()
+                    currentUserImg = documentSnapshot.getString("user_profile_pic").toString()
+                }
+        }
 
         // args
         ownerID = args.ownerID

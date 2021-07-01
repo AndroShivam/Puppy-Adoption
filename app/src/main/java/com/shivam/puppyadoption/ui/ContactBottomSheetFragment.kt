@@ -13,6 +13,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.databinding.FragmentContactBottomSheetBinding
+import com.shivam.puppyadoption.utils.DBConstants.REQUESTS
+import com.shivam.puppyadoption.utils.DBConstants.USERNAME
+import com.shivam.puppyadoption.utils.DBConstants.USERS
+import com.shivam.puppyadoption.utils.DBConstants.USER_BIO
+import com.shivam.puppyadoption.utils.DBConstants.USER_PROFILE_PIC
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -47,11 +52,11 @@ class ContactOwnerBottomSheetFragment : BottomSheetDialogFragment() {
         firebaseFirestore = FirebaseFirestore.getInstance()
 
         GlobalScope.launch(Dispatchers.IO) {
-            firebaseFirestore.collection("Users").document(currentUserID)
+            firebaseFirestore.collection(USERS).document(currentUserID)
                 .get().addOnSuccessListener { documentSnapshot ->
-                    currentUserName = documentSnapshot.getString("username").toString()
-                    currentUserBio = documentSnapshot.getString("user_bio").toString()
-                    currentUserImg = documentSnapshot.getString("user_profile_pic").toString()
+                    currentUserName = documentSnapshot.getString(USERNAME).toString()
+                    currentUserBio = documentSnapshot.getString(USER_BIO).toString()
+                    currentUserImg = documentSnapshot.getString(USER_PROFILE_PIC).toString()
                 }
         }
 
@@ -80,7 +85,7 @@ class ContactOwnerBottomSheetFragment : BottomSheetDialogFragment() {
             "dog_name" to dogName
         )
 
-        firebaseFirestore.collection("Users").document(ownerID).collection("Requests")
+        firebaseFirestore.collection(USERS).document(ownerID).collection(REQUESTS)
             .document().set(fields)
 
         Toast.makeText(context, "Request Sent!", Toast.LENGTH_SHORT).show()

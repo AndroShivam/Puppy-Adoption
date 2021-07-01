@@ -19,6 +19,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.databinding.FragmentSetupBinding
+import com.shivam.puppyadoption.utils.DBConstants.USERS
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import com.vmadalin.easypermissions.EasyPermissions
@@ -83,7 +84,7 @@ class SetupFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 imagePath.downloadUrl.addOnSuccessListener { uri ->
                     fields["user_profile_pic"] = uri.toString()
                     // store to firestore
-                    firebaseFirestore.collection("Users")
+                    firebaseFirestore.collection(USERS)
                         .document(currentUserID)
                         .set(fields, SetOptions.merge())
                     // open main activity

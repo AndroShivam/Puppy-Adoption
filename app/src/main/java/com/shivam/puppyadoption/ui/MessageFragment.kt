@@ -17,6 +17,8 @@ import com.shivam.puppyadoption.databinding.FragmentMessageBinding
 import com.shivam.puppyadoption.ui.adapter.Friend
 import com.shivam.puppyadoption.ui.adapter.FriendViewHolder
 import com.shivam.puppyadoption.ui.adapter.MessageAdapter
+import com.shivam.puppyadoption.utils.DBConstants.FRIENDS
+import com.shivam.puppyadoption.utils.DBConstants.USERS
 
 class MessageFragment : Fragment(), OnItemClickListener {
 
@@ -38,8 +40,8 @@ class MessageFragment : Fragment(), OnItemClickListener {
         currentUserID = auth.currentUser?.uid.toString()
 
         // query
-        val query = FirebaseFirestore.getInstance().collection("Users").document(currentUserID)
-            .collection("Friends")
+        val query = FirebaseFirestore.getInstance().collection(USERS).document(currentUserID)
+            .collection(FRIENDS)
         val firestoreRecyclerOptions = FirestoreRecyclerOptions.Builder<Friend>()
             .setQuery(query, Friend::class.java)
             .build()

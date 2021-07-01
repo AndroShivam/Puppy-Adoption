@@ -17,6 +17,9 @@ import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.data.model.Chat
 import com.shivam.puppyadoption.databinding.FragmentChatBinding
 import com.shivam.puppyadoption.ui.adapter.ChatAdapter
+import com.shivam.puppyadoption.utils.DBConstants.CHATS
+import com.shivam.puppyadoption.utils.DBConstants.USERNAME
+import com.shivam.puppyadoption.utils.DBConstants.USERS
 import kotlinx.coroutines.*
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.format.DateTimeFormatter
@@ -45,7 +48,7 @@ class ChatFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
         val currentUserID = auth.currentUser?.uid.toString()
-        database = Firebase.database.reference.child("chats")
+        database = Firebase.database.reference.child(CHATS)
 
         // args
         val args = arguments?.let { ChatFragmentArgs.fromBundle(it) }
@@ -53,9 +56,9 @@ class ChatFragment : Fragment() {
 
         // Set username in toolbar
         GlobalScope.launch(Dispatchers.IO) {
-            firestore.collection("Users").document(friendID).get()
+            firestore.collection(USERS).document(friendID).get()
                 .addOnSuccessListener { documentSnapshot ->
-                    val name = documentSnapshot.getString("username")
+                    val name = documentSnapshot.getString(USERNAME)
                     (activity as AppCompatActivity).supportActionBar?.title = name
                 }
         }
@@ -76,7 +79,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun loadMessages(comboID: String) {
-        chatReference = FirebaseDatabase.getInstance().getReference("chats").child(comboID)
+        chatReference = FirebaseDatabase.getInstance().getReference(CHATS).child(comboID)
 
         val chatList = ArrayList<Chat>()
 

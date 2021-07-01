@@ -18,6 +18,17 @@ import com.shivam.puppyadoption.databinding.FragmentHomeBinding
 import com.shivam.puppyadoption.ui.adapter.HomeAdapter
 import com.shivam.puppyadoption.ui.adapter.Post
 import com.shivam.puppyadoption.ui.adapter.PostViewHolder
+import com.shivam.puppyadoption.utils.DBConstants.COORDINATES
+import com.shivam.puppyadoption.utils.DBConstants.DOG_AGE
+import com.shivam.puppyadoption.utils.DBConstants.DOG_BREED
+import com.shivam.puppyadoption.utils.DBConstants.DOG_COLOR
+import com.shivam.puppyadoption.utils.DBConstants.DOG_DESC
+import com.shivam.puppyadoption.utils.DBConstants.DOG_GENDER
+import com.shivam.puppyadoption.utils.DBConstants.DOG_IMAGE
+import com.shivam.puppyadoption.utils.DBConstants.DOG_NAME
+import com.shivam.puppyadoption.utils.DBConstants.DOG_WEIGHT
+import com.shivam.puppyadoption.utils.DBConstants.OWNER_UID
+import com.shivam.puppyadoption.utils.DBConstants.POSTS
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -39,7 +50,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
         currentUserID = FirebaseAuth.getInstance().currentUser?.uid.toString()
 
         // query
-        query = FirebaseFirestore.getInstance().collection("Posts")
+        query = FirebaseFirestore.getInstance().collection(POSTS)
         val firestoreRecyclerOptions = FirestoreRecyclerOptions.Builder<Post>()
             .setQuery(query, Post::class.java)
             .build()
@@ -65,16 +76,16 @@ class HomeFragment : Fragment(), OnItemClickListener {
     override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int) {
 
         GlobalScope.launch(Dispatchers.IO) {
-            val dogName = documentSnapshot.getString("dog_name").toString()
-            val dogAge = documentSnapshot.getString("dog_age").toString()
-            val dogDesc = documentSnapshot.getString("dog_desc").toString()
-            val dogGender = documentSnapshot.getString("dog_gender").toString()
-            val dogBreed = documentSnapshot.getString("dog_breed").toString()
-            val dogWeight = documentSnapshot.getString("dog_weight").toString()
-            val dogColor = documentSnapshot.getString("dog_color").toString()
-            val dogImg = documentSnapshot.getString("dog_image").toString()
-            val ownerID = documentSnapshot.getString("owner_uid").toString()
-            val geoPoint = documentSnapshot.getGeoPoint("coordinates")
+            val dogName = documentSnapshot.getString(DOG_NAME).toString()
+            val dogAge = documentSnapshot.getString(DOG_AGE).toString()
+            val dogDesc = documentSnapshot.getString(DOG_DESC).toString()
+            val dogGender = documentSnapshot.getString(DOG_GENDER).toString()
+            val dogBreed = documentSnapshot.getString(DOG_BREED).toString()
+            val dogWeight = documentSnapshot.getString(DOG_WEIGHT).toString()
+            val dogColor = documentSnapshot.getString(DOG_COLOR).toString()
+            val dogImg = documentSnapshot.getString(DOG_IMAGE).toString()
+            val ownerID = documentSnapshot.getString(OWNER_UID).toString()
+            val geoPoint = documentSnapshot.getGeoPoint(COORDINATES)
 
             val lat = geoPoint?.latitude.toString()
             val lon = geoPoint?.longitude.toString()

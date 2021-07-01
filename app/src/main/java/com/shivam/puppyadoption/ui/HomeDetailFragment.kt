@@ -20,6 +20,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.databinding.FragmentHomeDetailBinding
+import com.shivam.puppyadoption.utils.DBConstants.USERNAME
+import com.shivam.puppyadoption.utils.DBConstants.USERS
+import com.shivam.puppyadoption.utils.DBConstants.USER_BIO
+import com.shivam.puppyadoption.utils.DBConstants.USER_PROFILE_PIC
 
 
 const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
@@ -66,11 +70,11 @@ class HomeDetailFragment : Fragment(), OnMapReadyCallback {
         if (currentUserID == args.ownerID)
             binding.detailContactBtn.isEnabled = false
 
-        firebaseFirestore.collection("Users").document(args.ownerID).get()
+        firebaseFirestore.collection(USERS).document(args.ownerID).get()
             .addOnSuccessListener { documentSnapshot ->
-                name = documentSnapshot.getString("username").toString()
-                bio = documentSnapshot.getString("user_bio").toString()
-                img = documentSnapshot.getString("user_profile_pic").toString()
+                name = documentSnapshot.getString(USERNAME).toString()
+                bio = documentSnapshot.getString(USER_BIO).toString()
+                img = documentSnapshot.getString(USER_PROFILE_PIC).toString()
             }
 
         // map

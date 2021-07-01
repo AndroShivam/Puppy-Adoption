@@ -30,6 +30,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.databinding.FragmentPostBinding
+import com.shivam.puppyadoption.utils.DBConstants.POSTS
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import com.vmadalin.easypermissions.EasyPermissions
@@ -226,12 +227,12 @@ class PostFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             "current_location" to currentAddress
         )
 
-        val imagePath = storageReference.child("Posts").child(UUID.randomUUID().toString())
+        val imagePath = storageReference.child(POSTS).child(UUID.randomUUID().toString())
         imagePath.putFile(dogImgURI).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 imagePath.downloadUrl.addOnSuccessListener { uri ->
                     fields["dog_image"] = uri.toString()
-                    firebaseFirestore.collection("Posts").document().set(fields, SetOptions.merge())
+                    firebaseFirestore.collection(POSTS).document().set(fields, SetOptions.merge())
                 }
             } else {
                 Toast.makeText(context, "${task.exception?.message}", Toast.LENGTH_SHORT)

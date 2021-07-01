@@ -18,6 +18,12 @@ import com.shivam.puppyadoption.databinding.FragmentRequestBinding
 import com.shivam.puppyadoption.ui.adapter.Request
 import com.shivam.puppyadoption.ui.adapter.RequestAdapter
 import com.shivam.puppyadoption.ui.adapter.RequestViewHolder
+import com.shivam.puppyadoption.utils.DBConstants.FRIENDS
+import com.shivam.puppyadoption.utils.DBConstants.REQUESTS
+import com.shivam.puppyadoption.utils.DBConstants.USERNAME
+import com.shivam.puppyadoption.utils.DBConstants.USERS
+import com.shivam.puppyadoption.utils.DBConstants.USER_BIO
+import com.shivam.puppyadoption.utils.DBConstants.USER_PROFILE_PIC
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -52,8 +58,8 @@ class RequestFragment : Fragment(), OnButtonClickListener {
         currentUserID = FirebaseAuth.getInstance().currentUser?.uid.toString()
 
         // firestore query
-        val query = FirebaseFirestore.getInstance().collection("Users").document(currentUserID)
-            .collection("Requests")
+        val query = FirebaseFirestore.getInstance().collection(USERS).document(currentUserID)
+            .collection(REQUESTS)
         val firestoreRecyclerOptions = FirestoreRecyclerOptions.Builder<Request>()
             .setQuery(query, Request::class.java)
             .build()
@@ -65,11 +71,11 @@ class RequestFragment : Fragment(), OnButtonClickListener {
 
         // get current user data
         GlobalScope.launch(Dispatchers.IO) {
-            firebaseFirestore.collection("Users").document(currentUserID).get()
+            firebaseFirestore.collection(USERS).document(currentUserID).get()
                 .addOnSuccessListener {
-                    ownerName = it.getString("username").toString()
-                    ownerBio = it.getString("user_bio").toString()
-                    ownerImg = it.getString("user_profile_pic").toString()
+                    ownerName = it.getString(USERNAME).toString()
+                    ownerBio = it.getString(USER_BIO).toString()
+                    ownerImg = it.getString(USER_PROFILE_PIC).toString()
                 }
         }
 
@@ -80,11 +86,11 @@ class RequestFragment : Fragment(), OnButtonClickListener {
         GlobalScope.launch {
             userID = documentSnapshot.getString("userID").toString()
 
-            firebaseFirestore.collection("Users").document(userID).get()
+            firebaseFirestore.collection(USERS).document(userID).get()
                 .addOnSuccessListener {
-                    userName = it.getString("username").toString()
-                    userBio = it.getString("user_bio").toString()
-                    userImg = it.getString("user_profile_pic").toString()
+                    userName = it.getString(USERNAME).toString()
+                    userBio = it.getString(USER_BIO).toString()
+                    userImg = it.getString(USER_PROFILE_PIC).toString()
                 }
 
             withContext(Dispatchers.Main) {
@@ -107,20 +113,20 @@ class RequestFragment : Fragment(), OnButtonClickListener {
         // for user who sent request (add owner of dog to friend list)
         val userFriendFields = getFields(ownerName, ownerBio, ownerImg, currentUserID)
 
-        firebaseFirestore.collection("Users").document(currentUserID).collection("Friends")
+        firebaseFirestore.collection(USERS).document(currentUserID).collection(FRIENDS)
             .document(userID).set(currentUserFriendFields)
 
-        firebaseFirestore.collection("Users").document(userID).collection("Friends")
+        firebaseFirestore.collection(USERS).document(userID).collection(FRIENDS)
             .document(currentUserID).set(userFriendFields)
 
-        firebaseFirestore.collection("Users").document(currentUserID).collection("Requests")
+        firebaseFirestore.collection(USERS).document(currentUserID).collection(REQUESTS)
             .document(documentSnapshot.id).delete().addOnSuccessListener {
                 Toast.makeText(context, "Request Accepted!", Toast.LENGTH_SHORT).show()
             }
     }
 
     private fun declineRequest(documentSnapshot: DocumentSnapshot) {
-        firebaseFirestore.collection("Users").document(currentUserID).collection("Requests")
+        firebaseFirestore.collection(USERS).document(currentUserID).collection(REQUESTS)
             .document(documentSnapshot.id).delete()
             .addOnSuccessListener {
                 Toast.makeText(context, "Request Declined!", Toast.LENGTH_SHORT).show()

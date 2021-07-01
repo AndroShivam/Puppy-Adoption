@@ -20,6 +20,11 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.shivam.puppyadoption.R
 import com.shivam.puppyadoption.databinding.FragmentProfileBinding
+import com.shivam.puppyadoption.utils.DBConstants.USERNAME
+import com.shivam.puppyadoption.utils.DBConstants.USERS
+import com.shivam.puppyadoption.utils.DBConstants.USER_BIO
+import com.shivam.puppyadoption.utils.DBConstants.USER_PROFILE_PIC
+import com.shivam.puppyadoption.utils.DBConstants.USER_PROFILE_PICTURES
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import com.vmadalin.easypermissions.EasyPermissions
@@ -56,11 +61,11 @@ class ProfileFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         GlobalScope.launch(Dispatchers.IO) {
             val source = Source.CACHE
-            firebaseFirestore.collection("Users").document(currentUserID).get(source)
+            firebaseFirestore.collection(USERS).document(currentUserID).get(source)
                 .addOnSuccessListener { documentSnapshot ->
-                    val name = documentSnapshot.getString("username").toString()
-                    val bio = documentSnapshot.getString("user_bio")
-                    val img = documentSnapshot.getString("user_profile_pic")
+                    val name = documentSnapshot.getString(USERNAME).toString()
+                    val bio = documentSnapshot.getString(USER_BIO)
+                    val img = documentSnapshot.getString(USER_PROFILE_PIC)
 
                     binding.profileName.setText(name)
                     binding.profileBio.setText(bio)
@@ -120,17 +125,17 @@ class ProfileFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun saveInfo(name: String, bio: String) {
         val fields = hashMapOf("username" to name, "user_bio" to bio)
-        firebaseFirestore.collection("Users").document(currentUserID)
+        firebaseFirestore.collection(USERS).document(currentUserID)
             .set(fields, SetOptions.merge())
     }
 
     private fun saveProfileImage() {
-        val imagePath = storageReference.child("User_Profile_Pictures").child("$currentUserID.jpg")
+        val imagePath = storageReference.child(USER_PROFILE_PICTURES).child("$currentUserID.jpg")
         imagePath.putFile(profileImageURI).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 imagePath.downloadUrl.addOnSuccessListener { uri ->
-                    val field = hashMapOf("user_profile_pic" to uri.toString())
-                    firebaseFirestore.collection("Users").document(currentUserID)
+                    val field = hashMapOf(USER_PROFILE_PIC to uri.toString())
+                    firebaseFirestore.collection(USERS).document(currentUserID)
                         .set(field, SetOptions.merge())
                 }
             } else {

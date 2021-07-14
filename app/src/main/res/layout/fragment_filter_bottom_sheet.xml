@@ -264,19 +264,6 @@
                 android:text="@string/female" />
         </com.google.android.material.chip.ChipGroup>
 
-        <!--        <com.google.android.material.textview.MaterialTextView-->
-        <!--            android:id="@+id/filter_age_text"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_margin="16dp"-->
-        <!--            android:text="@string/age"-->
-        <!--            android:textColor="@color/black"-->
-        <!--            android:textSize="16sp"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/filter_gender" />-->
-
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/filter_apply_btn"
             android:layout_width="match_parent"

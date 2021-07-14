@@ -18,6 +18,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -30,6 +31,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="spread"
                     tools:src="@drawable/dog_img" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -83,9 +85,12 @@
                 <LinearLayout
                     android:id="@+id/detail_dog_info_container"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_margin="16dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:clipToPadding="false"
                     android:orientation="horizontal"
+                    android:padding="12dp"
                     android:weightSum="3"
                     app:layout_constraintBottom_toTopOf="@id/detail_about_txt"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -93,74 +98,120 @@
                     app:layout_constraintTop_toBottomOf="@id/detail_dog_breed">
 
 
-                    <LinearLayout
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:background="#fdffbc"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:elevation="16dp"
+                        app:cardBackgroundColor="@color/extra_light_gray">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/color"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/detail_dog_color"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="Black" />
-                    </LinearLayout>
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/dog_color_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/color"
+                                android:textColor="@color/black"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toTopOf="@id/detail_dog_color"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_chainStyle="packed" />
 
-                    <LinearLayout
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/detail_dog_color"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/dog_color_text"
+                                tools:text="Black" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:background="#e4fbff"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:elevation="16dp"
+                        app:cardBackgroundColor="@color/extra_light_gray">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/age"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/detail_dog_age"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="@tools:sample/us_zipcodes" />
-                    </LinearLayout>
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/detail_age_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/age"
+                                android:textSize="16sp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toTopOf="@id/detail_dog_age"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_chainStyle="packed" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/detail_dog_age"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_age_text"
+                                tools:text="@tools:sample/us_zipcodes" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
 
 
-                    <LinearLayout
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
-                        android:background="#ffe3fe"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                        android:elevation="16dp"
+                        app:cardBackgroundColor="@color/extra_light_gray">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/weight"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/detail_dog_weight"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="@tools:sample/us_zipcodes" />
-                    </LinearLayout>
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/detail_weight_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:text="@string/weight"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toTopOf="@id/detail_dog_weight"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintVertical_chainStyle="packed" />
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/detail_dog_weight"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/detail_weight_text"
+                                tools:text="@tools:sample/us_zipcodes" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
                 <com.google.android.material.textview.MaterialTextView

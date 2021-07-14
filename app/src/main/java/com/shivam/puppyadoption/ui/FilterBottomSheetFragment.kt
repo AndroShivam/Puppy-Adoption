@@ -56,4 +56,6 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         }
         return binding.root
     }
+
+    override fun getTheme(): Int = R.style.BottomSheetTheme
 }

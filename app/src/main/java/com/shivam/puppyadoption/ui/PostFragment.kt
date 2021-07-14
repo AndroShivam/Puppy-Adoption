@@ -96,7 +96,7 @@ class PostFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             binding.maleContainer.setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.grey
+                    R.color.gray
                 )
             )
             binding.femaleContainer.setBackgroundColor(Color.TRANSPARENT)
@@ -107,7 +107,7 @@ class PostFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             binding.femaleContainer.setBackgroundColor(
                 ContextCompat.getColor(
                     requireContext(),
-                    R.color.grey
+                    R.color.gray
                 )
             )
             binding.maleContainer.setBackgroundColor(Color.TRANSPARENT)

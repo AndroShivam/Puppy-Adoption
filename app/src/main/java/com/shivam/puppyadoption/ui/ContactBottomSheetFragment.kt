@@ -90,4 +90,6 @@ class ContactOwnerBottomSheetFragment : BottomSheetDialogFragment() {
 
         Toast.makeText(context, "Request Sent!", Toast.LENGTH_SHORT).show()
     }
+
+    override fun getTheme(): Int = R.style.BottomSheetTheme
 }
